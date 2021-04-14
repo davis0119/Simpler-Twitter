@@ -35,18 +35,36 @@
         <br/> {% if request.user.is_authenticated %}
         <p style="margin-top: 0.5rem; margin-bottom: 2rem;">
             <a class="btn btn-outline-primary" href='/home'>Home</a>
-            <button type="button" class="btn btn-outline-info">{{request.user}}</button>
+            <a class="btn btn-outline-info" href='/profile/{{request.user}}'>{{request.user}}</a>
+            <a class="btn btn-outline-success" href='/hashtag'><b>hashtags</b></a>
             <a class="btn btn-outline-secondary" href='/'>about twitter</a>
-            <a class="btn btn-outline-danger" href='/logout'>Log Out</a> {% endif %}
+            <a class="btn btn-outline-danger" href='/logout'>log out</a> {% endif %}
         </p>
+        <div class="row">
+            {% for tag in hashtags %}
+            <div class="col-md-4">
+                <div class="card" style="margin-bottom: 1rem">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <p><a href='/hashtag/{{tag.tag}}'>#{{tag.tag}}</a></p>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
         <div class="row">
             {% for tweet in tweets %}
             <div class="col-md-4">
                 <div class="card" style="margin-bottom: 1rem">
                     <div class="card-body">
-                        <h5 class="card-title"><a href='{{tweet.author}}'>{{tweet.author}}</a></h5>
+                        <h5 class="card-title">{{tweet.author}} {% if request.user.username == tweet.author.username %}
+                            <a style="float: right;" href='/delete_home?id={{tweet.id}}' class="btn btn-danger btn-sm">delete</a> {% endif %}</h5>
                         <p>{{tweet.body}}</p>
-                        <a href='/delete?id={{tweet.id}}' class="btn btn-danger btn-sm">Delete</a>
+                        <a style="float: left;">{{tweet.created_at}}</a>
+                        <form method="POST" action="/like_home" style="float: right;">
+                            {% csrf_token %} likes: <button type="submit" class="btn btn-outline-primary" name="like_id" value="{{ tweet.id }}">{{tweet.likes.count}}</button>
+                        </form>
                     </div>
                 </div>
             </div>

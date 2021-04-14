@@ -35,6 +35,7 @@
         <p style="margin-top: 0.5rem; margin-bottom: 2rem;">
             <a class="btn btn-outline-primary" href='/home'>home</a>
             <a class="btn btn-outline-info" href='/profile/{{request.user}}'><b>{{request.user}}</b></a>
+            <a class="btn btn-outline-success" href='/hashtag'>hashtags</a>
             <a class="btn btn-outline-secondary" href='/'>about twitter</a>
             <a class="btn btn-outline-danger" href='/logout'>log out</a> {% endif %}
         </p>
@@ -56,10 +57,13 @@
             <div class="col-md-4">
                 <div class="card" style="margin-bottom: 1rem">
                     <div class="card-body">
-                        <h5 class="card-title">{{tweet.author}}</h5>
+                        <h5 class="card-title">{{tweet.author}}
+                            <a style="float: right;" href='/delete?id={{tweet.id}}' class="btn btn-danger btn-sm">delete</a></h5>
                         <p>{{tweet.body}}</p>
-                        {% if request.user.username == username %}
-                        <a style="float: right;" href='/delete?id={{tweet.id}}' class="btn btn-danger btn-sm">Delete</a> {% endif %}
+                        <a style="float: left;">{{tweet.created_at}}</a>
+                        <form method="POST" action="/like" style="float: right;">
+                            {% csrf_token %} likes: <button type="submit" class="btn btn-outline-primary" name="like_id" value="{{ tweet.id }}">{{tweet.likes.count}}</button>
+                        </form>
                     </div>
                 </div>
             </div>

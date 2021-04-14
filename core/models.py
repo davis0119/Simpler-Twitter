@@ -10,5 +10,5 @@ class Tweet(models.Model):
     body = models.TextField()
     created_at = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(User, on_delete=models.DO_NOTHING)
-    likes = models.IntegerField()
+    likes = models.ManyToManyField(User, related_name='likes')
     hashtags = models.ManyToManyField(HashTag)
