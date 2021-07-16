@@ -1,9 +1,6 @@
 # Twitter Replication 
 
-submitted by: **Davis Tran**
-pennkey: **davisdt**
-
-## how to run the amazing tumblr recreation 
+## how to run the amazing twitter recreation 
 
 **1)** cd into the twitter directory
 **2)** pip install -r requirements.txt
